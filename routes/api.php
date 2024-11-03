@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\api\downloadController;
+use App\Http\Controllers\api\likeController;
+use App\Http\Controllers\api\savedController;
 use App\Http\Controllers\Api\searchController;
 use App\Http\Controllers\Api\UploadController;
 
@@ -45,3 +48,15 @@ Route::post('/deleteJournal', [UploadController::class, 'delete_journal']);
 
 
 Route::post('/userList', [searchController::class, 'listOfUsers']);
+
+// Like API
+Route::post('/like', [likeController::class, 'likeCreate']);
+Route::post('/unlike', [likeController::class, 'unlikeDelete']);
+
+// Saved API
+Route::post('/save', [savedController::class, 'saveCreate']);
+Route::post('/deleteSave', [savedController::class, 'deleteSave']);
+// Route::post("/listSaved", [savedController::class, 'listOfSaved']);
+
+// Download API
+Route::post('/downloadArticle', [downloadController::class, 'downloadArticle']);
