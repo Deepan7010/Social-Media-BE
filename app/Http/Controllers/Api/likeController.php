@@ -33,7 +33,7 @@ class likeController extends Controller
         $record = Like::where("user_id", $request->user_id)->where("article_id", $request->type == "article" ? $request->article_id : null)->where("post_id", $request->type == "post" ? $request->post_id : null);
 
         if ($record->count() > 0) {
-            return response()->json(["error" => "This is Record Already Like!"]);
+            return response()->json(["error" => "This is Record Already Like!"],404);
         }
 
 

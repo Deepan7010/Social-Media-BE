@@ -33,7 +33,7 @@ class savedController extends Controller
         $record = Saved::where("user_id", $request->user_id)->where("article_id", $request->type == "article" ? $request->article_id : null)->where("post_id", $request->type == "post" ? $request->post_id : null);
 
         if ($record->count() > 0) {
-            return response()->json(["error" => "This is Record Already Saved!"]);
+            return response()->json(["error" => "This is Record Already Saved!"],404);
         }
 
         $save = Saved::create([
