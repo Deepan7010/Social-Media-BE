@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\api\connectionsController;
 use App\Http\Controllers\api\downloadController;
+use App\Http\Controllers\api\homeController;
 use App\Http\Controllers\api\likeController;
 use App\Http\Controllers\api\savedController;
 use App\Http\Controllers\Api\searchController;
@@ -36,7 +38,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/homeFeed', [AuthController::class, 'homeFeed']);
+Route::post('/homeFeed', [homeController::class, 'homeFeed']);
 
 Route::post('/uploadJournal', [UploadController::class, 'upload_journals']);
 
@@ -60,3 +62,8 @@ Route::post('/deleteSave', [savedController::class, 'deleteSave']);
 
 // Download API
 Route::post('/downloadArticle', [downloadController::class, 'downloadArticle']);
+
+// Connections
+Route::post("/follow",[connectionsController::class,"followCreate"]);
+Route::post("/unfollow",[connectionsController::class,"unfollow"]);
+Route::post("/connection",[connectionsController::class,"fetchConnectionsList"]);
