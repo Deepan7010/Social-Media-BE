@@ -90,6 +90,7 @@ class connectionsController extends Controller
         }
         $type = null;
         $count = null;
+        $followUser=null;
         if ($request->type == "follow") {
             $follow  = connect::where("loggeduser_id", $request->follow_id)->pluck("following");
             $followUser = User::whereIn("id", $follow)->select("id", "name")->get();

@@ -31,7 +31,7 @@ class downloadController extends Controller
                 "message"=>"The Data Not Found!"
             ],404);
         }
-        $filepath = storage_path("\app\public\\".$article->article);
+        $filepath = storage_path("\app\public\\".$article->paper_url);
         if (!file_exists($filepath)){
             return response()->json(["error"=>"The File Not Found!"],404);
         }

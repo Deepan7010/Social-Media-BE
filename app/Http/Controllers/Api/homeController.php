@@ -10,12 +10,25 @@ use App\Models\Post;
 use App\Models\Saved;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class homeController extends Controller
 {
     public function homefeed(Request $request)
     {
+        $validate = Validator::make($request->all(), [
+            "user_id" => 'required|exists:users,id'
+        ], [
+            "user_id.exists" => "The selected user does not exists.",
+        ]);
+
+        if ($validate->fails()) {
+            return response()->json([
+                "error" => $validate->errors()
+            ], 404);
+        }
+
         $users = User::where("id", $request->user_id)->select("name", "id as user_id")->get()
             ->map(function ($user) {
                 $user->profile_image = null;
@@ -29,6 +42,7 @@ class homeController extends Controller
             ->get()
             ->map(function($user) use ($request){
                 $user->postUserLocation=null;
+                $user->image = Storage::url($user->image);
                 $like = Like::where("user_id", $request->user_id)->where("post_id", $user->postid)->get();
                 $like_count = Like::where("post_id", $user->postid)->get();
                 $user->am_i_liked=$like->count()>0 ? true : false;
@@ -45,6 +59,7 @@ class homeController extends Controller
             ->orderBy('articles.created_at', 'desc')
             ->get()
             ->map(function($user) use ($request){
+                $user->image = Storage::url($user->image);
                 $like = Like::where("user_id", $request->user_id)->where("article_id", $user->articleId)->get();
                 $user->am_i_liked=$like->count()>0 ? true : false;
                 $like_count = Like::where("article_id", $user->articleId)->get();
